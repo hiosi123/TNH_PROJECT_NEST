@@ -19,6 +19,7 @@ type Board {
   id: Int!
   title: String!
   content: String!
+  url: String!
   viewcount: Int!
   createdAt: DateTime!
   deletedAt: DateTime!
@@ -28,6 +29,7 @@ type Board {
 type Query {
   fetchUsers: [User!]!
   fetchBoards(pagesize: Float, page: Float, userId: String): [Board!]!
+  fetchBoard(boardid: Float!): Board!
 }
 
 type Mutation {
@@ -36,10 +38,17 @@ type Mutation {
   logout: String!
   createUser(createUserInput: CreateUserInput!): User!
   deleteUser(userid: String!): String!
-  createBoards(title: String!, content: String!): [Board!]!
+  createBoard(title: String!, content: String!, url: String): Board!
+  updateBoard(boardid: Float, title: String, content: String): Board!
+  deleteBoard(boardid: Float!): Boolean!
+  uploadFile(files: [Upload!]!): [String!]!
+  deleteFile(files: [Upload!]!): [String!]!
 }
 
 input CreateUserInput {
   userid: String!
   password: String
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload

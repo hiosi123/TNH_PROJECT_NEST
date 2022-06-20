@@ -25,7 +25,11 @@ export class Board {
   @Field(() => String)
   content: string;
 
-  @Column()
+  @Column({ default: 'url' })
+  @Field(() => String)
+  url: string;
+
+  @Column({ default: 0 })
   @Field(() => Int)
   viewcount: number;
 

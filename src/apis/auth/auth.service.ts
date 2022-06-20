@@ -23,7 +23,7 @@ export class AuthService {
     // 배포환경 이부분 뒤에 저장 , 'https://myfrontsite.com'
 
     // // 배포환경;
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    // res.setHeader('Access-Control-Allow-Credentials', 'true');
     // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     // res.setHeader(
     //   'Set-Cookie',

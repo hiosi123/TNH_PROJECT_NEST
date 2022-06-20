@@ -18,13 +18,41 @@ export class BoardResolver {
     return this.boardService.findAll({ pagesize, page, userid });
   }
 
+  @Query(() => Board)
+  fetchBoard(
+    @Args('boardid') boardid: number, //
+  ) {
+    return this.boardService.findOne({ boardid });
+  }
+
   @UseGuards(GqlAuthAccessGuard)
-  @Mutation(() => [Board])
-  createBoards(
+  @Mutation(() => Board)
+  createBoard(
     @CurrentUser() currentUser: ICurrentUser,
     @Args('title') title: string, //
     @Args('content') content: string,
+    @Args('url', { nullable: true }) url: string,
   ) {
-    return this.boardService.create({ title, content, currentUser });
+    return this.boardService.create({ title, content, currentUser, url });
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => Board)
+  updateBoard(
+    @CurrentUser() currentUser: ICurrentUser,
+    @Args('boardid', { nullable: true }) boardid: number,
+    @Args('title', { nullable: true }) title: string,
+    @Args('content', { nullable: true }) content: string,
+  ) {
+    return this.boardService.update({ currentUser, title, content, boardid });
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => Boolean)
+  deleteBoard(
+    @CurrentUser() currentUser: ICurrentUser,
+    @Args('boardid') boardid: number,
+  ) {
+    return this.boardService.delete({ currentUser, boardid });
   }
 }

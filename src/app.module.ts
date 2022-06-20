@@ -6,13 +6,15 @@ import { BoardModule } from './apis/board/board.module';
 import { UserModule } from './apis/user/user.module';
 import * as redisStore from 'cache-manager-redis-store';
 import { AuthModule } from './apis/auth/auth.module';
-import { ClientOpts } from 'redis';
+import { RedisClientOptions } from 'redis';
+import { FileModule } from './apis/file/file.module';
 
 @Module({
   imports: [
     AuthModule,
     UserModule,
-    BoardModule, //
+    BoardModule,
+    FileModule, //
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'src/commons/graphql/schema.gql',
@@ -20,19 +22,18 @@ import { ClientOpts } from 'redis';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost', // localhost
+      host: 'my-database', // localhost
       port: 3306,
       username: 'root',
-      password: '1234',
+      password: 'root',
       database: 'pilot',
       entities: [__dirname + '/apis/**/*.entity.*'], //각 경로 설정
       synchronize: true,
       logging: true,
     }),
-    CacheModule.register<ClientOpts>({
+    CacheModule.register<RedisClientOptions>({
       store: redisStore,
-      host: 'localhost',
-      port: 6379,
+      url: 'redis://my-redis:6379', // localhost
       isGlobal: true,
     }),
   ],
