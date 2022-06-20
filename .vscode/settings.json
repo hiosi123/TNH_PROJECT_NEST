@@ -1,0 +1,5 @@
+{
+  "editor.formatOnSave": true, //저장할때 포멧을 맞춰준다
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "liveServer.settings.port": 5501 //내가 쓸 포멧터
+}

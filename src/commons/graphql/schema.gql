@@ -1,0 +1,45 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: String!
+  userid: String!
+  password: String!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Board {
+  id: Int!
+  title: String!
+  content: String!
+  viewcount: Int!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  user: User!
+}
+
+type Query {
+  fetchUsers: [User!]!
+  fetchBoards(pagesize: Float, page: Float, userId: String): [Board!]!
+}
+
+type Mutation {
+  login(userid: String!, password: String!): String!
+  restoreAccessToken: String!
+  logout: String!
+  createUser(createUserInput: CreateUserInput!): User!
+  deleteUser(userid: String!): String!
+  createBoards(title: String!, content: String!): [Board!]!
+}
+
+input CreateUserInput {
+  userid: String!
+  password: String
+}

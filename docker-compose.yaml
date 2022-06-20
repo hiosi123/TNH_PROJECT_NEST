@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  my-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    volumes:
+      - ./src:/myfolder/src
+
+    ports:
+      - 3000:3000
+
+  my-database:
+    platform: linux/x86_64
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: 'pilot'
+      MYSQL_ROOT_PASSWORD: 'root'
+
+    ports:
+      - 3306:3306
