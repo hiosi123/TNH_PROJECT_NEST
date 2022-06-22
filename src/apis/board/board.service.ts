@@ -51,6 +51,13 @@ export class BoardService {
         relations: ['user'],
       });
     }
+
+    return await this.boardRepository.find({
+      order: {
+        createdAt: 'DESC',
+      },
+      relations: ['user'],
+    });
   }
 
   async findOne({ boardid }) {
@@ -71,27 +78,27 @@ export class BoardService {
     return board;
   }
 
-  async create({ title, content, currentUser, url }) {
-    const user = await this.userReposiotry.findOne({
-      where: { userid: currentUser.userid },
-    });
+  async create({ title, content, url }) {
+    // const user = await this.userReposiotry.findOne({
+    //   where: { userid: currentUser.userid },
+    // });
 
     return await this.boardRepository.save({
       title,
       content,
       url,
-      user: user,
+      // user: user,
     });
   }
-  async update({ currentUser, title, content, boardid }) {
+  async update({ title, content, boardid }) {
     const oldBoard = await this.boardRepository.findOne({
       where: { id: boardid },
       relations: ['user'],
     });
 
-    if (oldBoard.user.userid !== currentUser.userid) {
-      throw new UnauthorizedException('수정할 권한이 없습니다.');
-    }
+    // if (oldBoard.user.userid !== currentUser.userid) {
+    //   throw new UnauthorizedException('수정할 권한이 없습니다.');
+    // }
     let newBoard;
     if (title && content) {
       newBoard = { ...oldBoard, title, content };

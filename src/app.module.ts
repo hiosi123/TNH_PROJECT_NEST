@@ -17,6 +17,10 @@ import { FileModule } from './apis/file/file.module';
     FileModule, //
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
+      cors: {
+        origin: 'http://localhost:3000',
+        credentials: true,
+      },
       autoSchemaFile: 'src/commons/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
     }),

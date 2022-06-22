@@ -39,7 +39,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   deleteUser(userid: String!): String!
   createBoard(title: String!, content: String!, url: String): Board!
-  updateBoard(boardid: Float, title: String, content: String): Board!
+  updateBoard(boardid: Float!, title: String, content: String): Board!
   deleteBoard(boardid: Float!): Boolean!
   uploadFile(files: [Upload!]!): [String!]!
   deleteFile(files: [Upload!]!): [String!]!

@@ -11,7 +11,7 @@ services:
       - ./src:/myfolder/src
 
     ports:
-      - 3000:3000
+      - 3001:3001
 
   my-database:
     platform: linux/x86_64

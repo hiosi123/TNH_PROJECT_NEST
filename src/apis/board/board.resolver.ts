@@ -25,26 +25,26 @@ export class BoardResolver {
     return this.boardService.findOne({ boardid });
   }
 
-  @UseGuards(GqlAuthAccessGuard)
+  // @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Board)
   createBoard(
-    @CurrentUser() currentUser: ICurrentUser,
+    // @CurrentUser() currentUser: ICurrentUser,
     @Args('title') title: string, //
     @Args('content') content: string,
     @Args('url', { nullable: true }) url: string,
   ) {
-    return this.boardService.create({ title, content, currentUser, url });
+    return this.boardService.create({ title, content, url });
   }
 
-  @UseGuards(GqlAuthAccessGuard)
+  // @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Board)
   updateBoard(
-    @CurrentUser() currentUser: ICurrentUser,
-    @Args('boardid', { nullable: true }) boardid: number,
+    // @CurrentUser() currentUser: ICurrentUser,
+    @Args('boardid') boardid: number,
     @Args('title', { nullable: true }) title: string,
     @Args('content', { nullable: true }) content: string,
   ) {
-    return this.boardService.update({ currentUser, title, content, boardid });
+    return this.boardService.update({ title, content, boardid });
   }
 
   @UseGuards(GqlAuthAccessGuard)

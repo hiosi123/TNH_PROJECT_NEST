@@ -17,8 +17,8 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(graphqlUploadExpress());
-  await app.listen(3000, () => {
-    console.log('server listening on 3000');
+  await app.listen(3001, () => {
+    console.log('server listening on 3001');
   });
 }
 bootstrap();

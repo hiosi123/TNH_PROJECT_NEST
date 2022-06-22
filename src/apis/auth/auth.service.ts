@@ -18,23 +18,23 @@ export class AuthService {
 
     //개발 환경
 
-    res.setHeader('Set-Cookie', `refreshToken=${refreshToken}`);
+    // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}`);
 
     // 배포환경 이부분 뒤에 저장 , 'https://myfrontsite.com'
 
-    // // 배포환경;
-    // res.setHeader('Access-Control-Allow-Credentials', 'true');
-    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    // res.setHeader(
-    //   'Set-Cookie',
-    //   `refreshToken=${refreshToken}; path=/; domain=localhost:3000/graphql; SameSite=None; Secure; httpOnly;`,
-    // );
+    // 배포환경;
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader(
+      'Set-Cookie',
+      `refreshToken=${refreshToken}; path=/; domain=localhost:3000; SameSite=None; Secure; httpOnly;`,
+    );
 
-    // res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
-    // res.setHeader(
-    //   'Access-Control-Allow-Headers',
-    //   'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-    // );
+    res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
+    );
   }
 
   getAccessToken({ user }) {
