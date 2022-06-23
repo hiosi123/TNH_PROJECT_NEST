@@ -59,9 +59,13 @@ export class FileService {
     ); //[file,file,file,file...]
 
     const URL = 'https://storage.googleapis.com/tnh/';
-
-    const fixedURL = directory.map((e: string) => e.replace('tnh/', URL));
-    const final_directory = directory.map((e: string) => e.replace('tnh/', ''));
+    console.log(directory);
+    const fixedURL = directory.map((e: string) =>
+      e.replace('awesome-tensor-353913/', URL),
+    );
+    const final_directory = directory.map((e: string) =>
+      e.replace('awesome-tensor-353913/', ''),
+    );
     const results = ['GCPdirectory:', ...final_directory, 'URL:', ...fixedURL];
 
     for (let i = 0; i < fixedURL.length; i++) {

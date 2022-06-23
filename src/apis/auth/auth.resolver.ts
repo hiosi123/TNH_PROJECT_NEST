@@ -59,7 +59,7 @@ export class AuthResolver {
     @Context() context: any, //
   ) {
     console.log('-------------');
-
+    console.log(context);
     const accessToken = context.req.headers.authorization.split(' ')[1];
     console.log('🍋', accessToken);
     console.log('-------------');

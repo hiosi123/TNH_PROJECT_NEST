@@ -7,7 +7,6 @@ import {
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Cache } from 'cache-manager';
-import { isCompositeType } from 'graphql';
 
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {

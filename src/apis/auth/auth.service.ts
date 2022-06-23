@@ -1,13 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly jwtService: JwtService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   setRefreshToken({ user, res }) {
     const refreshToken = this.jwtService.sign(
@@ -17,7 +13,6 @@ export class AuthService {
     );
     console.log('여기여기', refreshToken);
     //개발 환경
-    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}`);
 
     // 배포환경 이부분 뒤에 저장 , 'https://myfrontsite.com'
@@ -28,10 +23,11 @@ export class AuthService {
     //   httpOnly: true,
     //   maxAge: 1000 * 60 * 60 * 2,
     // });
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 
     res.setHeader(
       'Set-Cookie',
-      `refreshToken=${refreshToken}; path=/; domain=localhost; SameSite=None; Secure; httpOnly;`,
+      `refreshToken=${refreshToken}; path=/; domain=http://localhost:3001/graphql; SameSite=None; Secure; httpOnly;`,
     );
 
     res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
