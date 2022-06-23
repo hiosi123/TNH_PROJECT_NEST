@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Resolver, Query, Mutation } from '@nestjs/graphql';
+import { Args, Resolver, Query, Mutation, Int } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.params';
 import { MessagePort } from 'worker_threads';
@@ -19,6 +19,11 @@ export class BoardResolver {
     return this.boardService.findAll({ pagesize, page, userid });
   }
 
+  @Query(() => Number)
+  fetchBoardsCount() {
+    return this.boardService.count();
+  }
+
   @Query(() => Board)
   fetchBoard(
     @Args('boardid') boardid: number, //
@@ -26,35 +31,41 @@ export class BoardResolver {
     return this.boardService.findOne({ boardid });
   }
 
-  // @UseGuards(GqlAuthAccessGuard)
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Board)
   createBoard(
-    // @CurrentUser() currentUser: ICurrentUser,
+    @CurrentUser() currentUser: ICurrentUser,
     @Args('title') title: string, //
     @Args('content') content: string,
     @Args('url', { nullable: true }) url: string,
   ) {
-    return this.boardService.create({ title, content, url });
+    return this.boardService.create({ title, content, url, currentUser });
   }
 
-  // @UseGuards(GqlAuthAccessGuard)
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Board)
   updateBoard(
-    // @CurrentUser() currentUser: ICurrentUser,
+    @CurrentUser() currentUser: ICurrentUser,
     @Args('boardid') boardid: number,
     @Args('title', { nullable: true }) title: string,
     @Args('content', { nullable: true }) content: string,
     @Args('url', { nullable: true }) url: string,
   ) {
-    return this.boardService.update({ title, content, boardid, url });
+    return this.boardService.update({
+      title,
+      content,
+      boardid,
+      url,
+      currentUser,
+    });
   }
 
-  // @UseGuards(GqlAuthAccessGuard)
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
   deleteBoard(
-    // @CurrentUser() currentUser: ICurrentUser,
+    @CurrentUser() currentUser: ICurrentUser,
     @Args('boardid') boardid: number,
   ) {
-    return this.boardService.delete({ boardid });
+    return this.boardService.delete({ boardid, currentUser });
   }
 }

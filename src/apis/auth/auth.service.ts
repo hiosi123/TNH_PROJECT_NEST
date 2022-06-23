@@ -15,19 +15,23 @@ export class AuthService {
       { userid: user.userid, sub: user.id },
       { secret: 'myRefreshKey', expiresIn: '2w' },
     );
-
+    console.log('여기여기', refreshToken);
     //개발 환경
-
+    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     // res.setHeader('Set-Cookie', `refreshToken=${refreshToken}`);
 
     // 배포환경 이부분 뒤에 저장 , 'https://myfrontsite.com'
 
     // 배포환경;
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    // res.cookie('Authentication', refreshToken, {
+    //   httpOnly: true,
+    //   maxAge: 1000 * 60 * 60 * 2,
+    // });
+
     res.setHeader(
       'Set-Cookie',
-      `refreshToken=${refreshToken}; path=/; domain=localhost:3000; SameSite=None; Secure; httpOnly;`,
+      `refreshToken=${refreshToken}; path=/; domain=localhost; SameSite=None; Secure; httpOnly;`,
     );
 
     res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');

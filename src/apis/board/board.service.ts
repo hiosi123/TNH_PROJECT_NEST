@@ -15,6 +15,11 @@ export class BoardService {
     private readonly userReposiotry: Repository<User>,
   ) {}
 
+  async count() {
+    const result = await this.boardRepository.find();
+    return result.length;
+  }
+
   async findAll({ pagesize, page, userid }) {
     if (page <= 0) {
       page = 1;
@@ -43,6 +48,17 @@ export class BoardService {
       });
     }
 
+    if (page) {
+      return await this.boardRepository.find({
+        order: {
+          createdAt: 'DESC',
+        },
+        skip: (page - 1) * 10,
+        take: 10,
+        relations: ['user'],
+      });
+    }
+
     if (userid) {
       return await this.boardRepository.find({
         order: {
@@ -57,6 +73,7 @@ export class BoardService {
       order: {
         createdAt: 'DESC',
       },
+      take: 10,
       relations: ['user'],
     });
   }
@@ -79,27 +96,28 @@ export class BoardService {
     return board;
   }
 
-  async create({ title, content, url }) {
-    // const user = await this.userReposiotry.findOne({
-    //   where: { userid: currentUser.userid },
-    // });
+  async create({ title, content, url, currentUser }) {
+    const user = await this.userReposiotry.findOne({
+      where: { userid: currentUser.userid },
+    });
 
     return await this.boardRepository.save({
       title,
       content,
       url,
-      // user: user,
+      user: user,
     });
   }
-  async update({ title, content, boardid, url }) {
+  async update({ title, content, boardid, url, currentUser }) {
     const oldBoard = await this.boardRepository.findOne({
       where: { id: boardid },
       relations: ['user'],
     });
 
-    // if (oldBoard.user.userid !== currentUser.userid) {
-    //   throw new UnauthorizedException('수정할 권한이 없습니다.');
-    // }
+    if (oldBoard.user.userid !== currentUser.userid) {
+      throw new UnauthorizedException('수정할 권한이 없습니다.');
+    }
+
     let newBoard;
     if (title && content && url) {
       newBoard = { ...oldBoard, title, content, url };
@@ -120,15 +138,15 @@ export class BoardService {
     return this.boardRepository.save(newBoard);
   }
 
-  async delete({ boardid }) {
-    // const findUserFromBoard = await this.boardRepository.findOne({
-    //   where: { id: boardid },
-    //   relations: ['user'],
-    // });
+  async delete({ boardid, currentUser }) {
+    const findUserFromBoard = await this.boardRepository.findOne({
+      where: { id: boardid },
+      relations: ['user'],
+    });
 
-    // if (findUserFromBoard.user.userid !== currentUser.userid) {
-    //   throw new UnauthorizedException('삭제할 권한이 없습니다.');
-    // }
+    if (findUserFromBoard.user.userid !== currentUser.userid) {
+      throw new UnauthorizedException('삭제할 권한이 없습니다.');
+    }
 
     const result = await this.boardRepository.delete({ id: boardid });
 

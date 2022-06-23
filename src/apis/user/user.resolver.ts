@@ -3,6 +3,9 @@ import { CreateUserInput } from './dto/user.input';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { UserService } from './user.service';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.params';
 
 @Resolver()
 export class UserResolver {
@@ -13,6 +16,12 @@ export class UserResolver {
   @Query(() => [User])
   fetchUsers() {
     return this.userService.findAll();
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
+  @Query(() => String)
+  findUserInfo(@CurrentUser() currentUser: ICurrentUser) {
+    return this.userService.findUser({ currentUser });
   }
 
   @Mutation(() => User)

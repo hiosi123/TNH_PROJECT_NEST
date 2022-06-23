@@ -7,6 +7,7 @@ import {
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Cache } from 'cache-manager';
+import { isCompositeType } from 'graphql';
 
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
@@ -30,7 +31,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
     const check = await this.cacheManager.get(`accessToken: ${accessToken}`);
 
     if (check) throw new UnauthorizedException();
-
+    console.log(payload);
     return {
       id: payload.sub, //리턴이 된거임 context 라는 곳으로
       userid: payload.userid,

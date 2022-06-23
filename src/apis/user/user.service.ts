@@ -35,4 +35,8 @@ export class UserService {
       userid: userid,
     });
   }
+
+  async findUser({ currentUser }) {
+    return currentUser.userid;
+  }
 }
