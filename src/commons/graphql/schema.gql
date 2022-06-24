@@ -29,7 +29,7 @@ type Board {
 type Query {
   fetchUsers: [User!]!
   findUserInfo: String!
-  fetchBoards(pagesize: Float, page: Float, userId: String): [Board!]!
+  fetchBoards(pagesize: Float, page: Float, userid: String, search: String): [Board!]!
   fetchBoardsCount: Float!
   fetchBoard(boardid: Float!): Board!
 }
@@ -43,6 +43,7 @@ type Mutation {
   createBoard(title: String!, content: String!, url: String): Board!
   updateBoard(boardid: Float!, title: String, content: String, url: String): Board!
   deleteBoard(boardid: Float!): Boolean!
+  deleteBoards(boardid: [Int!]!): Boolean!
   uploadFile(files: [Upload!]!): [String!]!
   deleteFile(files: [Upload!]!): [String!]!
 }

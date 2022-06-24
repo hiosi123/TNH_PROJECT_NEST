@@ -14,9 +14,10 @@ export class BoardResolver {
   fetchBoards(
     @Args('pagesize', { nullable: true }) pagesize: number, //
     @Args('page', { nullable: true }) page: number,
-    @Args('userId', { nullable: true }) userid: string,
+    @Args('userid', { nullable: true }) userid: string,
+    @Args('search', { nullable: true }) search: string,
   ) {
-    return this.boardService.findAll({ pagesize, page, userid });
+    return this.boardService.findAll({ pagesize, page, userid, search });
   }
 
   @Query(() => Number)
@@ -67,5 +68,12 @@ export class BoardResolver {
     @Args('boardid') boardid: number,
   ) {
     return this.boardService.delete({ boardid, currentUser });
+  }
+
+  @Mutation(() => Boolean)
+  async deleteBoards(
+    @Args({ name: 'boardid', type: () => [Int] }) boardid: number[],
+  ) {
+    return await this.boardService.deleteAll({ boardid });
   }
 }
