@@ -185,15 +185,15 @@ export class BoardService {
     return result.affected ? true : false;
   }
 
-  async deleteAll({ boardid }) {
-    // const findUserFromBoard = await this.boardRepository.findOne({
-    //   where: { id: boardid },
-    //   relations: ['user'],
-    // });
+  async deleteAll({ boardid, currentUser }) {
+    const findUserFromBoard = await this.boardRepository.findOne({
+      where: { id: boardid },
+      relations: ['user'],
+    });
 
-    // if (findUserFromBoard.user.userid !== currentUser.userid) {
-    //   throw new UnauthorizedException('삭제할 권한이 없습니다.');
-    // }
+    if (findUserFromBoard.user.userid !== currentUser.userid) {
+      throw new UnauthorizedException('삭제할 권한이 없습니다.');
+    }
     try {
       for (let i = 0; i < boardid.length; i++) {
         await this.boardRepository.delete({ id: boardid[i] });

@@ -11,6 +11,6 @@ export class File {
   @Column({ default: 0 })
   number: number;
 
-  @Column()
+  @Column({ default: 'url' })
   url: string;
 }

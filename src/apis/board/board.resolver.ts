@@ -70,10 +70,12 @@ export class BoardResolver {
     return this.boardService.delete({ boardid, currentUser });
   }
 
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Boolean)
   async deleteBoards(
     @Args({ name: 'boardid', type: () => [Int] }) boardid: number[],
+    @CurrentUser() currentUser: ICurrentUser,
   ) {
-    return await this.boardService.deleteAll({ boardid });
+    return await this.boardService.deleteAll({ boardid, currentUser });
   }
 }
